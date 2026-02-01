@@ -6,6 +6,7 @@ const GET_TODOS = gql`
     todos {
       id
       title
+      description
       completed
       createdAt
     }
@@ -13,10 +14,11 @@ const GET_TODOS = gql`
 `
 
 const ADD_TODO = gql`
-  mutation AddTodo($title: String!) {
-    add(title: $title) {
+  mutation AddTodo($title: String!, $description: String) {
+    addTodo(title: $title, description: $description) {
       id
       title
+      description
       completed
       createdAt
     }
@@ -42,6 +44,7 @@ const DELETE_TODO = gql`
 
 function App() {
   const { data, loading, error } = useQuery(GET_TODOS)
+  const [desc, setDesc] = useState('')
   const [title, setTitle] = useState('')
   const [addTodo, { loading: adding }] = useMutation(ADD_TODO)
   const [toggleTodo] = useMutation(TOGGLE_TODO)
@@ -55,7 +58,7 @@ function App() {
     if (!trimmed) return
     try {
       await addTodo({
-        variables: { title: trimmed },
+        variables: { title: trimmed, description: desc },
         update(cache, { data: result }) {
           const newItem = result?.addTodo
           if (!newItem) return
@@ -74,6 +77,7 @@ function App() {
       setIsError(true)
     }
     setTitle('')
+    setDesc('')
   }
 
   return (
@@ -85,10 +89,15 @@ function App() {
           onChange={(event) => setTitle(event.target.value)}
           placeholder="Add a todo"
         />
+        <input
+          value={desc}
+          onChange={(event) => setDesc(event.target.value)}
+          placeholder="desc"
+        />
         <button type="submit" disabled={adding}>
           {adding ? 'Adding...' : 'Add'}
         </button>
-        {isError ?'error':'errorじゃない'}
+        {isError ? 'error' : 'errorじゃない'}
       </form>
 
       {loading && <p>Loading...</p>}
@@ -113,7 +122,8 @@ function App() {
                 })
               }
             />
-            {todo.title}
+            {todo.title ? todo.title : 'titleなし'}
+            {todo.description ? todo.description : '詳細なし'}
           </label>
           <button
             type="button"

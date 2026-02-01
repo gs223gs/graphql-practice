@@ -9,7 +9,7 @@ async function main() {
   await prisma.todo.createMany({
     data: [
       { title: "Learn GraphQL" },
-      { title: "Build a TODO app" },
+      { title: "Build a TODO app", description:"test" },
       { title: "Ship it", completed: true },
     ],
   });

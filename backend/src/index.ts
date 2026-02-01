@@ -6,6 +6,7 @@ const typeDefs = `#graphql
   type Todo {
     id: ID!
     title: String!
+    description: String
     completed: Boolean!
     createdAt: String!
     updatedAt: String!
@@ -17,7 +18,7 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-    addTodo(title: String!): Todo!
+    addTodo(title: String!, description:String): Todo!
     toggleTodo(id: ID!, completed: Boolean!): Todo!
     deleteTodo(id: ID!): Boolean!
   }
@@ -50,10 +51,10 @@ const resolvers = {
     },
   },
   Mutation: {
-    addTodo: async (_: unknown, args: { title: string }) => {
+    addTodo: async (_: unknown, args: { title: string, description: string | null }) => {
       console.log('ADD')
       const item = await prisma.todo.create({
-        data: { title: args.title },
+        data: { title: args.title, description: args.description },
       });
       return {
         ...item,
