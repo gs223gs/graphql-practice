@@ -1,17 +1,6 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { useMemo, useState } from 'react'
-
-const GET_TODOS = gql`
-  query GetTodos {
-    todos {
-      id
-      title
-      description
-      completed
-      createdAt
-    }
-  }
-`
+import { useGetTodo } from '../hooks/useGetTodos'
 
 const ADD_TODO = gql`
   mutation AddTodo($title: String!, $description: String) {
@@ -43,7 +32,7 @@ const DELETE_TODO = gql`
 `
 
 function App() {
-  const { data, loading, error } = useQuery(GET_TODOS)
+  const { data, loading, error } = useGetTodo()
   const [desc, setDesc] = useState('')
   const [title, setTitle] = useState('')
   const [addTodo, { loading: adding }] = useMutation(ADD_TODO)
