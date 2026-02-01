@@ -1,10 +1,11 @@
 {
   "scripts": {
     "dev": "concurrently \"npm --prefix frontend run dev\" \"npm --prefix backend run dev\" \"docker-compose up -d\"",
-    "docker:ps":"docker ps",
-    "docker:down":"docker-compose down"
+    "docker:ps": "docker ps",
+    "docker:down": "docker-compose down"
   },
   "devDependencies": {
+    "@types/node": "^25.1.0",
     "concurrently": "^9.2.1"
   }
 }
