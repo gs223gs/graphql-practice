@@ -14,7 +14,7 @@ const GET_TODOS = gql`
 
 const ADD_TODO = gql`
   mutation AddTodo($title: String!) {
-    addTodo(title: $title) {
+    add(title: $title) {
       id
       title
       completed
@@ -46,27 +46,33 @@ function App() {
   const [addTodo, { loading: adding }] = useMutation(ADD_TODO)
   const [toggleTodo] = useMutation(TOGGLE_TODO)
   const [deleteTodo] = useMutation(DELETE_TODO)
-
+  const [isError, setIsError] = useState(false)
   const items = useMemo(() => data?.todos ?? [], [data])
 
   const handleAdd = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const trimmed = title.trim()
     if (!trimmed) return
-    await addTodo({
-      variables: { title: trimmed },
-      update(cache, { data: result }) {
-        const newItem = result?.addTodo
-        if (!newItem) return
-        cache.modify({
-          fields: {
-            todos(existing = []) {
-              return [newItem, ...existing]
+    try {
+      await addTodo({
+        variables: { title: trimmed },
+        update(cache, { data: result }) {
+          const newItem = result?.addTodo
+          if (!newItem) return
+          cache.modify({
+            fields: {
+              todos(existing = []) {
+                return [newItem, ...existing]
+              },
             },
-          },
-        })
-      },
-    })
+          })
+        },
+      })
+      setIsError(false)
+    } catch {
+      console.log('error')
+      setIsError(true)
+    }
     setTitle('')
   }
 
@@ -82,6 +88,7 @@ function App() {
         <button type="submit" disabled={adding}>
           {adding ? 'Adding...' : 'Add'}
         </button>
+        {isError ?'error':'errorじゃない'}
       </form>
 
       {loading && <p>Loading...</p>}

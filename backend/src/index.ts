@@ -28,6 +28,7 @@ const prisma = new PrismaClient();
 const resolvers = {
   Query: {
     todos: async () => {
+      console.log('TODOS')
       const items = await prisma.todo.findMany({ orderBy: { id: "desc" } });
       return items.map((item) => ({
         ...item,
@@ -36,6 +37,7 @@ const resolvers = {
       }));
     },
     todo: async (_: unknown, args: { id: string }) => {
+      console.log('TODO')
       const item = await prisma.todo.findUnique({
         where: { id: Number(args.id) },
       });
@@ -49,6 +51,7 @@ const resolvers = {
   },
   Mutation: {
     addTodo: async (_: unknown, args: { title: string }) => {
+      console.log('ADD')
       const item = await prisma.todo.create({
         data: { title: args.title },
       });
@@ -59,6 +62,7 @@ const resolvers = {
       };
     },
     toggleTodo: async (_: unknown, args: { id: string; completed: boolean }) => {
+      console.log('TOGGLE')
       const item = await prisma.todo.update({
         where: { id: Number(args.id) },
         data: { completed: args.completed },
@@ -70,6 +74,7 @@ const resolvers = {
       };
     },
     deleteTodo: async (_: unknown, args: { id: string }) => {
+      console.log('DELETE')
       await prisma.todo.delete({ where: { id: Number(args.id) } });
       return true;
     },
