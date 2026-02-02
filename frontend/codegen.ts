@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
   generates: {
     "frontend/src/__generated__/types.ts": {
-      plugins: ["typescript", "typescript-operations"],
+      plugins: ["typescript", "typescript-operations", "typescript-react-apollo"],
     },
   },
 };
