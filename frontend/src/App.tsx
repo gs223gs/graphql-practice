@@ -16,11 +16,6 @@ const TOGGLE_TODO = gql`
   }
 `
 
-const DELETE_TODO = gql`
-  mutation DeleteTodo($id: ID!) {
-    deleteTodo(id: $id)
-  }
-`
 
 type Todo = {
   id: string
@@ -68,13 +63,20 @@ const TodoItem = (todo: Todo) => {
       <button
         type="button"
         disabled={loading}
+        // クリック時に deleteTodo ミューテーションを実行して、この Todo を削除する
         onClick={() =>
           deleteTodo({
+            // 削除対象の Todo の id をミューテーションの変数として渡す
             variables: { id: todo.id },
+            // サーバーからレスポンスが返ってきたあとに、Apollo Client のキャッシュを手動で更新する
             update(cache) {
               cache.modify({
                 fields: {
+                  // キャッシュ上の todos フィールドを書き換える
                   todos(existing = [], { readField }) {
+                    // existing: キャッシュ上の Todo 一覧
+                    // readField('id', ref) でキャッシュ内の各 Todo の id を読み取り、
+                    // 今削除した Todo の id と一致しないものだけを残した新しい配列を返す
                     return existing.filter(
                       (ref: any) => readField('id', ref) !== todo.id,
                     )
