@@ -2,7 +2,7 @@ import { gql, useMutation } from '@apollo/client'
 import { useMemo } from 'react'
 import { useGetTodo } from '../hooks/useGetTodos'
 import { TodoForm } from './TodoForm'
-
+import { useDeleteTodoMutation } from '../__generated__/types'
 
 
 const TOGGLE_TODO = gql`
@@ -50,7 +50,7 @@ const useToggleTodo = () => {
 }
 const TodoItem = (todo: Todo) => {
   const { handleToggleTodo } = useToggleTodo()
-  const [deleteTodo] = useMutation(DELETE_TODO)
+  const [deleteTodo, { loading, error }] = useDeleteTodoMutation();
   return (
     <div >
       <label>
@@ -64,8 +64,10 @@ const TodoItem = (todo: Todo) => {
         {todo.title ? todo.title : 'titleなし'}
         {todo.description ? todo.description : '詳細なし'}
       </label>
+      {error && <p>error</p>}
       <button
         type="button"
+        disabled={loading}
         onClick={() =>
           deleteTodo({
             variables: { id: todo.id },
