@@ -31,25 +31,34 @@ type Todo = {
   updateAt: string
 }
 
-const TodoItem = (todo: Todo) => {
+const useToggleTodo = () => {
   const [toggleTodo] = useMutation(TOGGLE_TODO)
+
+  const handleToggleTodo = async (
+    todo: Todo
+  ) => {
+    await toggleTodo({
+      variables: { id: todo.id, completed: !todo.completed },
+      optimisticResponse: {
+        toggleTodo: {
+          ...todo,
+        },
+      },
+    })
+  }
+  return { handleToggleTodo }
+}
+const TodoItem = (todo: Todo) => {
+  const { handleToggleTodo } = useToggleTodo()
   const [deleteTodo] = useMutation(DELETE_TODO)
   return (
-    <div key={todo.id}>
+    <div >
       <label>
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={(event) =>
-            toggleTodo({
-              variables: { id: todo.id, completed: event.target.checked },
-              optimisticResponse: {
-                toggleTodo: {
-                  ...todo,
-                  completed: event.target.checked,
-                },
-              },
-            })
+          onChange={() =>
+            handleToggleTodo(todo)
           }
         />
         {todo.title ? todo.title : 'titleなし'}
@@ -92,7 +101,10 @@ function App() {
       {error && <p>Failed to load: {error.message}</p>}
       {items.length === 0 && !loading && <p>No todos yet.</p>}
       {items.map((t: Todo) => {
-        return <TodoItem {...t} />
+        return (
+          <div key={t.id}>
+            <TodoItem {...t} />
+          </div>)
       })}
     </div>
   )

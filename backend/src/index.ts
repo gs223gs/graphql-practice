@@ -64,15 +64,22 @@ const resolvers = {
     },
     toggleTodo: async (_: unknown, args: { id: string; completed: boolean }) => {
       console.log('TOGGLE')
-      const item = await prisma.todo.update({
-        where: { id: Number(args.id) },
-        data: { completed: args.completed },
-      });
-      return {
-        ...item,
-        createdAt: item.createdAt.toISOString(),
-        updatedAt: item.updatedAt.toISOString(),
-      };
+      try {
+        const item = await prisma.todo.update({
+          where: { id: Number(args.id) },
+          data: { completed: args.completed },
+        });
+        console.log(item)
+        return {
+          ...item,
+          createdAt: item.createdAt.toISOString(),
+          updatedAt: item.updatedAt.toISOString(),
+        };
+      } catch (error) {
+        console.log(error)
+      }
+
+
     },
     deleteTodo: async (_: unknown, args: { id: string }) => {
       console.log('DELETE')
