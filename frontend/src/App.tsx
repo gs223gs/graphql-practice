@@ -2,19 +2,10 @@ import { gql, useMutation } from '@apollo/client'
 import { useMemo } from 'react'
 import { useGetTodo } from '../hooks/useGetTodos'
 import { TodoForm } from './TodoForm'
-import { useDeleteTodoMutation } from '../__generated__/types'
+import { useDeleteTodoMutation, useToggleTodoMutation } from '../__generated__/types'
 
 
-const TOGGLE_TODO = gql`
-  mutation ToggleTodo($id: ID!, $completed: Boolean!) {
-    toggleTodo(id: $id, completed: $completed) {
-      id
-      title
-      completed
-      createdAt
-    }
-  }
-`
+
 
 
 type Todo = {
@@ -26,34 +17,21 @@ type Todo = {
   updateAt: string
 }
 
-const useToggleTodo = () => {
-  const [toggleTodo] = useMutation(TOGGLE_TODO)
-
-  const handleToggleTodo = async (
-    todo: Todo
-  ) => {
-    await toggleTodo({
-      variables: { id: todo.id, completed: !todo.completed },
-      optimisticResponse: {
-        toggleTodo: {
-          ...todo,
-        },
-      },
-    })
-  }
-  return { handleToggleTodo }
-}
 const TodoItem = (todo: Todo) => {
-  const { handleToggleTodo } = useToggleTodo()
+  const [toggleTodo] = useToggleTodoMutation();
   const [deleteTodo, { loading, error }] = useDeleteTodoMutation();
   return (
     <div >
+      {todo.completed ? 'true' : 'false'}
       <label>
         <input
           type="checkbox"
           checked={todo.completed}
           onChange={() =>
-            handleToggleTodo(todo)
+            toggleTodo({
+              variables: { id: todo.id, completed: todo.completed },
+              optimisticResponse: { toggleTodo: { ...todo } },
+            })
           }
         />
         {todo.title ? todo.title : 'titleなし'}
