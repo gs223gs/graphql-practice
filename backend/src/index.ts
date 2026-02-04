@@ -1,6 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
+import { setTimeout as sleep } from 'node:timers/promises';
 
 const typeDefs = `#graphql
   type Todo {
@@ -29,6 +30,7 @@ const prisma = new PrismaClient();
 const resolvers = {
   Query: {
     todos: async () => {
+      await sleep(5_000);   // 5 秒待機
       console.log('TODOS')
       const items = await prisma.todo.findMany({ orderBy: { id: "desc" } });
       return items.map((item) => ({
@@ -52,6 +54,7 @@ const resolvers = {
   },
   Mutation: {
     addTodo: async (_: unknown, args: { title: string, description: string | null }) => {
+      await sleep(5_000);   // 5 秒待機
       console.log('ADD')
       const item = await prisma.todo.create({
         data: { title: args.title, description: args.description },
@@ -63,6 +66,7 @@ const resolvers = {
       };
     },
     toggleTodo: async (_: unknown, args: { id: string; completed: boolean }) => {
+      await sleep(5_000);   // 5 秒待機
       console.log('TOGGLE')
       try {
         const item = await prisma.todo.update({
@@ -82,6 +86,7 @@ const resolvers = {
 
     },
     deleteTodo: async (_: unknown, args: { id: string }) => {
+      await sleep(5_000);   // 5 秒待機
       console.log('DELETE')
       await prisma.todo.delete({ where: { id: Number(args.id) } });
       return true;
