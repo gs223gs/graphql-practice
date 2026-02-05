@@ -66,7 +66,7 @@ const resolvers = {
       };
     },
     toggleTodo: async (_: unknown, args: { id: string; completed: boolean }) => {
-      // await sleep(5_000);   // 5 秒待機
+      await sleep(5_000);   // 5 秒待機
       console.log(args.completed ? 'T' : 'F')
       console.log('TOGGLE')
       try {
