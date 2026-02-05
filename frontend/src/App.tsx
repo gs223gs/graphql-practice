@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useGetTodo } from '../hooks/useGetTodos'
 import { TodoForm } from './TodoForm'
 import { useDeleteTodoMutation, useToggleTodoMutation } from '../__generated__/types'
@@ -29,8 +29,8 @@ const TodoItem = (todo: Todo) => {
           checked={todo.completed}
           onChange={() =>
             toggleTodo({
-              variables: { id: todo.id, completed: todo.completed },
-              optimisticResponse: { toggleTodo: { ...todo } },
+              variables: { id: todo.id, completed: !todo.completed },
+              optimisticResponse: { toggleTodo: { ...todo, completed: !todo.completed } },
             })
           }
         />
@@ -70,15 +70,12 @@ const TodoItem = (todo: Todo) => {
     </div>
   )
 }
-function App() {
+const TodoApp = () => {
   const { data, loading, error } = useGetTodo()
   const items = useMemo(() => data?.todos ?? [], [data])
 
   return (
     <div>
-      <h1>Todo</h1>
-      <TodoForm />
-
       {loading && <p>Loading...</p>}
       {error && <p>Failed to load: {error.message}</p>}
       {items.length === 0 && !loading && <p>No todos yet.</p>}
@@ -88,6 +85,20 @@ function App() {
             <TodoItem {...t} />
           </div>)
       })}
+    </div>
+  )
+}
+function App() {
+  const [isCacheTest, setIsCacheTest] = useState(false)
+
+  return (
+    <div>
+      <h1>Todo</h1>
+      <TodoForm />
+      <button
+        onClick={() => setIsCacheTest(prev => !prev)}
+      >{isCacheTest ? <p>unmount</p> : <p>mount</p>}</button>
+      {!isCacheTest && <TodoApp />}
     </div>
   )
 }
