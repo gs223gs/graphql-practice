@@ -53,3 +53,4 @@ Q:useMutation(Apollo)のoptionsは何がある? | A:起動/変数/エラー完�
 Q:mutation時にcacheをクリアする?Apolloの挙動は? | A:全消しせず戻り値をmerge/一覧は手動更新が必要/全消しは手動のみ | C:1 | S:0
 Q:useQueryのcacheはリロードでどうなる? | A:通常はメモリのみで消える/永続化設定なら復元/空なら再取得 | C:1 | S:0
 Q:useQueryのcacheが効くタイミングは? | A:同一clientのメモリに残る間/再マウント時はfetchPolicy次第 | C:1 | S:0
+Q:TodoAppをアンマウント/再マウントでfetchされないのは正しい? | A:同一clientのキャッシュが残っていれば正しい/初回は取得 | C:1 | S:0
