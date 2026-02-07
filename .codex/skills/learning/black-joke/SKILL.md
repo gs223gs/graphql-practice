@@ -56,3 +56,4 @@ Q:useQueryのcacheが効くタイミングは? | A:同一clientのメモリに�
 Q:TodoAppをアンマウント/再マウントでfetchされないのは正しい? | A:同一clientのキャッシュが残っていれば正しい/初回は取得 | C:1 | S:0
 Q:optimistic UIでも連打でrequestは止まらない? | A:止まらない/最後だけ送る制御は自作/標準はloading等で抑止 | C:1 | S:0
 Q:PostmanでGraphQL queryを投げるとerrorsになる | A:POSTでJSON {query:"..."} にする/URLとheaders確認/エラー文を確認 | C:1 | S:0
+Q:GraphQL learnの疑問点(エラー/部分データ/schema/resolver) | A:errors配列+data部分/nullableでpartial/レスポンスはschemaで固定/ resolver=データ取得関数 | C:1 | S:0
