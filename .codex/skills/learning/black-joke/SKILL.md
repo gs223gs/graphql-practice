@@ -54,3 +54,4 @@ Q:mutation時にcacheをクリアする?Apolloの挙動は? | A:全消しせず�
 Q:useQueryのcacheはリロードでどうなる? | A:通常はメモリのみで消える/永続化設定なら復元/空なら再取得 | C:1 | S:0
 Q:useQueryのcacheが効くタイミングは? | A:同一clientのメモリに残る間/再マウント時はfetchPolicy次第 | C:1 | S:0
 Q:TodoAppをアンマウント/再マウントでfetchされないのは正しい? | A:同一clientのキャッシュが残っていれば正しい/初回は取得 | C:1 | S:0
+Q:optimistic UIでも連打でrequestは止まらない? | A:止まらない/最後だけ送る制御は自作/標準はloading等で抑止 | C:1 | S:0
