@@ -1,22 +1,25 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import type { NextRequest } from "next/server";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 
 type Context = {
   request: NextRequest;
 };
 
-const typeDefs = `#graphql
-  type Query {
-    hello: String!
-    time: String!
-  }
-`;
+export const runtime = "nodejs";
+
+const schemaPath = path.join(process.cwd(), "graphql", "schema.graphql");
+const typeDefs = readFileSync(schemaPath, "utf8");
 
 const resolvers = {
   Query: {
     hello: () => "Hello from Apollo Server",
     time: () => new Date().toISOString(),
+    boom: () => {
+      throw new Error("Boom");
+    },
   },
 };
 
