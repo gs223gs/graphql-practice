@@ -55,3 +55,4 @@ Q:useQueryのcacheはリロードでどうなる? | A:通常はメモリのみ�
 Q:useQueryのcacheが効くタイミングは? | A:同一clientのメモリに残る間/再マウント時はfetchPolicy次第 | C:1 | S:0
 Q:TodoAppをアンマウント/再マウントでfetchされないのは正しい? | A:同一clientのキャッシュが残っていれば正しい/初回は取得 | C:1 | S:0
 Q:optimistic UIでも連打でrequestは止まらない? | A:止まらない/最後だけ送る制御は自作/標準はloading等で抑止 | C:1 | S:0
+Q:PostmanでGraphQL queryを投げるとerrorsになる | A:POSTでJSON {query:"..."} にする/URLとheaders確認/エラー文を確認 | C:1 | S:0
