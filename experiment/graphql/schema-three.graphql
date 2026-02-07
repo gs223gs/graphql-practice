@@ -1,0 +1,13 @@
+schema {
+  query: Query
+}
+
+type Query {
+  nullableCase: PartialResult!
+  nonNullCase: PartialResult!
+}
+
+type PartialResult {
+  safe: String
+  required: String!
+}

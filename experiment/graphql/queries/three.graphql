@@ -1,0 +1,10 @@
+query PartialCases {
+  nullableCase {
+    safe
+    required
+  }
+  nonNullCase {
+    safe
+    required
+  }
+}

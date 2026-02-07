@@ -7,6 +7,7 @@ export default function Home() {
   const { data, loading, error } = useQuery(HelloDocument);
   const qLinks = [
     { label: "問題1: data / errors の確認", href: "/q/one" },
+    { label: "問題3: 部分的に data が返るケース", href: "/q/three" },
   ];
 
   return (
