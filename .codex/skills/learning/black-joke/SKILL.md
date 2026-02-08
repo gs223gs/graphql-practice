@@ -13,6 +13,8 @@ description: ユーザーに質問された時に参照するべきskill 何か�
 
 - 「○○について教えて」「エラーを解消して」などの説明依頼
 - 既に同じ質問が記録されている場合は復習モードに切り替える
+- ユーザーが答えだけを求めていた場合は答えを即時出すこと
+- ユーザーがわからないと言ったら答えを出すこと
 
 ## 進め方
 
@@ -57,3 +59,5 @@ Q:TodoAppをアンマウント/再マウントでfetchされないのは正し�
 Q:optimistic UIでも連打でrequestは止まらない? | A:止まらない/最後だけ送る制御は自作/標準はloading等で抑止 | C:1 | S:0
 Q:PostmanでGraphQL queryを投げるとerrorsになる | A:POSTでJSON {query:"..."} にする/URLとheaders確認/エラー文を確認 | C:1 | S:0
 Q:GraphQL learnの疑問点(エラー/部分データ/schema/resolver) | A:errors配列+data部分/nullableでpartial/レスポンスはschemaで固定/ resolver=データ取得関数 | C:1 | S:0
+Q:npm run devでconcurrentlyが見つからない | A:concurrently未インストール/ルートにdevDependency追加 | C:1 | S:0
+Q:Apollo DevtoolsでRPC_MESSAGE_TIMEOUTが出る | A:DevtoolsとClient間通信失敗/拡張機能再起動/キャッシュやCSP確認 | C:1 | S:0

@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "dev": "ts-node mock-server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.3.0",
+    "@graphql-tools/mock": "^9.1.5",
+    "@graphql-tools/schema": "^10.0.31",
+    "apollo-server-express": "^3.13.0",
+    "express": "^4.22.1"
+  }
+}

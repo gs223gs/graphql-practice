@@ -2,28 +2,10 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
 import { setTimeout as sleep } from 'node:timers/promises';
+import { readFileSync } from "node:fs";
+import path from "node:path";
 
-const typeDefs = `#graphql
-  type Todo {
-    id: ID!
-    title: String!
-    description: String
-    completed: Boolean!
-    createdAt: String!
-    updatedAt: String!
-  }
-
-  type Query {
-    todos: [Todo!]!
-    todo(id: ID!): Todo
-  }
-
-  type Mutation {
-    addTodo(title: String!, description:String): Todo!
-    toggleTodo(id: ID!, completed: Boolean!): Todo!
-    deleteTodo(id: ID!): Boolean!
-  }
-`;
+const typeDefs = readFileSync(path.join(__dirname, "schema.graphql"), "utf8");
 
 const prisma = new PrismaClient();
 
